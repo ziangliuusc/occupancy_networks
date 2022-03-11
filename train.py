@@ -64,7 +64,7 @@ val_loader = torch.utils.data.DataLoader(
 
 # For visualizations
 vis_loader = torch.utils.data.DataLoader(
-    val_dataset, batch_size=12, shuffle=True,
+    val_dataset, batch_size=2, shuffle=True,
     collate_fn=data.collate_remove_none,
     worker_init_fn=data.worker_init_fn)
 data_vis = next(iter(vis_loader))
@@ -80,9 +80,10 @@ trainer = config.get_trainer(model, optimizer, cfg, device=device)
 
 checkpoint_io = CheckpointIO(out_dir, model=model, optimizer=optimizer)
 try:
-    load_dict = checkpoint_io.load('model.pt')
+    load_dict = checkpoint_io.load('onet_img2mesh_3-f786b04a.pt')
 except FileExistsError:
     load_dict = dict()
+load_dict = dict()
 epoch_it = load_dict.get('epoch_it', -1)
 it = load_dict.get('it', -1)
 metric_val_best = load_dict.get(
@@ -100,9 +101,12 @@ print('Current best validation metric (%s): %.8f'
       % (model_selection_metric, metric_val_best))
 
 # TODO: reintroduce or remove scheduler?
-# scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=4000,
-#                                       gamma=0.1, last_epoch=epoch_it)
-logger = SummaryWriter(os.path.join(out_dir, 'logs'))
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=4000,
+                                      gamma=0.1, last_epoch=epoch_it)
+tb_log_dir = 0
+while os.path.exists(os.path.join(out_dir, 'logs_', str(tb_log_dir))):
+    tb_log_dir += 1
+logger = SummaryWriter(os.path.join(out_dir, 'logs_', str(tb_log_dir)))
 
 # Shorthands
 print_every = cfg['training']['print_every']
@@ -117,7 +121,7 @@ print('Total number of parameters: %d' % nparameters)
 
 while True:
     epoch_it += 1
-#     scheduler.step()
+    scheduler.step()
 
     for batch in train_loader:
         it += 1

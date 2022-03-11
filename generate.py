@@ -39,11 +39,15 @@ if vis_n_outputs is None:
 # Dataset
 dataset = config.get_dataset('test', cfg, return_idx=True)
 
+print("Finished downloading dataset...")
+
 # Model
 model = config.get_model(cfg, device=device, dataset=dataset)
 
 checkpoint_io = CheckpointIO(out_dir, model=model)
 checkpoint_io.load(cfg['test']['model_file'])
+
+print("Finished loading ckpt...")
 
 # Generator
 generator = config.get_generator(model, cfg, device=device)

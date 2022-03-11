@@ -1,4 +1,25 @@
 # Occupancy Networks
+
+## Instruction
+### Install
+`conda env update -n cs231a-project --file environment.yaml`
+`conda install gxx_linux-64`
+`conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch`
+Then also install pykdtree from original repo instead of building through torch.build_ext
+
+- Visualize .OFF files: https://3dviewer.net/
+
+#### Installing mesh-fusion
+- compute_30 error: replace with compute_50 in CMakeList
+- C++ 'consexpr' not valid error: use std=c++17
+- Error with OpenGL files in pyrender:
+  - Install Conda version of the packages
+    - `conda install -c conda-forge glew`
+    - `conda install -c anaconda libglu`
+    - `conda install -c conda-forge mesalib`
+    - `conda install -c conda-forge freeglut`
+    - `conda install -c conda-forge libgomp`
+
 ![Example 1](img/00.gif)
 ![Example 2](img/01.gif)
 ![Example 3](img/02.gif)

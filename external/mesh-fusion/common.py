@@ -467,8 +467,9 @@ class Mesh:
         :return: mesh
         :rtype: Mesh
         """
-
+        print("Reading: ", filepath)
         vertices, faces = read_off(filepath)
+        
 
         real_faces = []
         for face in faces:

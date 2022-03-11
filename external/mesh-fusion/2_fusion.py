@@ -334,6 +334,7 @@ class Fusion:
 
         # As rendering might be slower, we wait for rendering to finish.
         # This allows to run rendering and fusing in parallel (more or less).
+        print(filepath)
         depths = common.read_hdf5(filepath)
 
         timer.reset()

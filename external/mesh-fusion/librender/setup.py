@@ -4,8 +4,8 @@ from Cython.Distutils import build_ext
 import numpy as np
 
 extra_compile_args = ["-ffast-math", '-msse', '-msse2', '-msse3', '-msse4.2', '-O4', '-fopenmp']
-extra_link_args = ['-lGLEW', '-lglut', '-lGL', '-lGLU', '-fopenmp']
-
+# extra_link_args = ['-lGLEW', '-lglut', '-lGL', '-lGLU', '-fopenmp']
+extra_link_args = ['-lGLEW', '-lglut', '-lGLU', '-fopenmp']
 setup(
   name="pyrender",
   cmdclass= {'build_ext': build_ext},
